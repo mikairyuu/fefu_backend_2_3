@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+use App\Enums\Gender;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property string|null $name
+ * @property string $name
+ * @property string $surname
+ * @property string|null $patronymic
+ * @property int $age
+ * @property int $gender @see Gender
  * @property string|null $email
- * @property string|null $message
+ * @property string $message
  * @property string|null $phone
  */
 class Appeal extends Model

@@ -2,47 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AppealPostRequest;
+use App\Http\Sanitizers\PhoneSanitizer;
 use App\Models\Appeal;
 use Illuminate\Http\Request;
 
 class AppealController extends Controller
 {
-    public function __invoke(Request $request)
+    public function handleGet(Request $request)
     {
         $success = $request->session()->get('success', false);
-        $errors = null;
-        if ($request->isMethod('post')) {
-            $errors = $this->getErrorMessages($request->input());
-            if (count($errors) > 0) {
-                $request->flash();
-            } else {
-                $appeal = new Appeal();
-                $appeal->name = $request->input('name');
-                $appeal->message = $request->input('message');
-                $appeal->email = $request->input('email');
-                $appeal->phone = $request->input('phone');
-
-                $appeal->save();
-                return redirect()
-                    ->route('appeal')
-                    ->with('success', true);
-            }
-        }
-        return view('appealForm', ['errors' => $errors, 'success' => $success]);
+        return view('appealForm', ['success' => $success]);
     }
 
-    private function getErrorMessages(Array $request): array
+    public function handlePost(AppealPostRequest $request)
     {
-        $errors = [];
-        if ($request['name'] === null) {
-            $errors[] = 'Name is empty';
-        }
-        if ($request['message'] === null) {
-            $errors[] = 'Message is empty';
-        }
-        if ($request['email'] === null && $request['phone'] === null) {
-            $errors[] = 'You have specified neither an email nor a phone';
-        }
-        return $errors;
+        $appeal = new Appeal();
+        $appeal->name = $request->input('name');
+        $appeal->surname = $request->input('surname');
+        $appeal->patronymic = $request->input('patronymic');
+        $appeal->age = $request->input('age');
+        $appeal->gender = $request->input('gender');
+        $appeal->message = $request->input('message');
+        $appeal->email = $request->input('email');
+        $appeal->phone = PhoneSanitizer::sanitize($request->input('phone'));
+
+        $appeal->save();
+        return redirect()
+            ->route('appeal')
+            ->with('success', true);
     }
 }
