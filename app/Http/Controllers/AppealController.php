@@ -11,8 +11,13 @@ class AppealController extends Controller
 {
     public function handleGet(Request $request)
     {
+        $showSuggestionMessage = false;
+        if ($request->input('suggested') !== null) {
+            $showSuggestionMessage = !session('popup_message_shown', false);
+            if ($showSuggestionMessage) session()->put('popup_message_shown', true);
+        }
         $success = $request->session()->get('success', false);
-        return view('appealForm', ['success' => $success]);
+        return view('appealForm', ['success' => $success, 'showSuggestionMessage' => $showSuggestionMessage]);
     }
 
     public function handlePost(AppealPostRequest $request)
@@ -28,6 +33,7 @@ class AppealController extends Controller
         $appeal->phone = PhoneSanitizer::sanitize($request->input('phone'));
 
         $appeal->save();
+        session()->put('appealed', true);
         return redirect()
             ->route('appeal')
             ->with('success', true);

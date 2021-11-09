@@ -398,6 +398,7 @@
             font-family: 'Nunito', sans-serif;
         }
     </style>
+    @includeWhen(session('popup'),'includes.popup')
 </head>
 <body>
 <h1>Новости</h1>
