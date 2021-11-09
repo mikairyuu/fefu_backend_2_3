@@ -19,6 +19,10 @@
                 font-family: 'Nunito', sans-serif;
             }
         </style>
+        @if(session('popup')===true)
+            <script src="/js/popup.js"></script>
+            <script type="text/javascript">popup('{{route('appeal')}}')</script>
+        @endif
     </head>
     <body>
        <a href="{{route('news_list')}}">Новости</a>

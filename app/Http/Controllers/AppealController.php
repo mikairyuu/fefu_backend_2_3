@@ -11,6 +11,8 @@ class AppealController extends Controller
 {
     public function handleGet(Request $request)
     {
+        if ($request->input('suggested') !== null)
+            return redirect()->route('appeal')->with('suggested', true);
         $success = $request->session()->get('success', false);
         return view('appealForm', ['success' => $success]);
     }
@@ -28,6 +30,7 @@ class AppealController extends Controller
         $appeal->phone = PhoneSanitizer::sanitize($request->input('phone'));
 
         $appeal->save();
+        session()->put('appealed', true);
         return redirect()
             ->route('appeal')
             ->with('success', true);

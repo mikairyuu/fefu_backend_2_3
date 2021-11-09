@@ -14,11 +14,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => ['suggestions']], function () {
+    Route::get('/news', [NewsController::class, 'getList'])->name('news_list');
+    Route::get('/news/{slug}', [NewsController::class, 'getDetails'])->name('news_item');
+    Route::get('/', function () {
+        return view('welcome');
+    });
 });
-Route::get('/news', [NewsController::class, 'getList'])->name('news_list');
-Route::get('/news/{slug}', [NewsController::class, 'getDetails'])->name('news_item');
 Route::get('/appeal', [AppealController::class, 'handleGet'])->name('appeal');
 Route::post('/appeal', [AppealController::class, 'handlePost'])->name('appeal_post');

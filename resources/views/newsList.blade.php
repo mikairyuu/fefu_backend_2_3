@@ -398,6 +398,10 @@
             font-family: 'Nunito', sans-serif;
         }
     </style>
+    @if(session('popup')===true)
+        <script src="/js/popup.js"></script>
+        <script type="text/javascript">popup('{{route('appeal')}}')</script>
+    @endif
 </head>
 <body>
 <h1>Новости</h1>
