@@ -412,6 +412,11 @@
 @if($success)
     <p>Sent successfully</p>
 @endif
+@if($showSuggestionMessage))
+    <p>We value your opinion!</p>
+    <p>If you don't want to leave it just yet,</p>
+    <a href="{{url()->previous()}}">Press here to go back</a>
+@endif
 @if($errors !== null)
     @foreach($errors->all() as $error)
         <p class="error">{{$error}}</p><br>

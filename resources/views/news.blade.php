@@ -19,6 +19,7 @@
                 font-family: 'Nunito', sans-serif;
             }
         </style>
+        @includeWhen(session('popup'),'includes.popup')
     </head>
     <body>
        <a href="{{route('news_list')}}">Новости</a>
