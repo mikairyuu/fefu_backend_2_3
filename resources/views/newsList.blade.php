@@ -399,6 +399,7 @@
         }
     </style>
     @includeWhen(session('popup'),'includes.popup')
+    @include('includes.auth_header')
 </head>
 <body>
 <h1>Новости</h1>

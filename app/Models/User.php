@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -20,6 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'login',
         'email',
         'password',
     ];
@@ -31,6 +31,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'email_verified_at', //not used for now so let's hide it
         'remember_token',
     ];
 
@@ -43,6 +44,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    static public $registrationRules = [
+        'password' => 'required|between:10,30|regex:/^(?=(.*[A-Z]){1})(?=(.*[a-z]){1})(?=(.*[0-9]){1})(?=(.*[re@#$%^!&+=.\-_*]){1})([a-zA-Z0-9@#$%^!&+=*.\-_])*$/',
+        'login' => 'required|between:5,30|unique:users,login',
+        'email' => 'required',
+        'name' => 'required'
+    ];
+
+    static public $loginRules = [
+        'password' => 'required|max:10,30',
+        'login' => 'required|max:30',
+    ];
 
     /**
      * The attributes that should be cast.

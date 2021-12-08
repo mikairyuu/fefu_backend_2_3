@@ -408,6 +408,7 @@
     </style>
 </head>
 <body>
+@include('includes.auth_header')
 <h2>Appeal</h2>
 @if($success)
     <p>Sent successfully</p>

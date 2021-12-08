@@ -20,6 +20,7 @@
             }
         </style>
         @includeWhen(session('popup'),'includes.popup')
+        @include('includes.auth_header')
     </head>
     <body>
        <a href="{{route('news_list')}}">Новости</a>
