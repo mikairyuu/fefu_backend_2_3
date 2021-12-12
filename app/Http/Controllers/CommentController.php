@@ -9,11 +9,22 @@ use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
     private const PAGE_SIZE = 5;
+
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Comment::class, 'comment');
+    }
 
     /**
      * Display a listing of the resource.
@@ -42,7 +53,7 @@ class CommentController extends Controller
         $comment = new Comment();
         $comment->title = $validated['title'];
         $comment->text = $validated['text'];
-        $comment->user_id = User::inRandomOrder()->first()->id;
+        $comment->user_id = Auth::user()->id;
         $comment->post_id = $post->id;
         $comment->save();
 
@@ -88,7 +99,7 @@ class CommentController extends Controller
      * @param Comment $comment
      * @return JsonResponse
      */
-    public function destroy(Comment $comment)
+    public function destroy(Post $post, Comment $comment)
     {
         $comment->delete();
         return response()->json(['message' => 'Comment removed successfully']);

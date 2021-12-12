@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,5 +36,11 @@ class News extends Model
             $redirect->save();
         }
         return parent::save($options);
+    }
+
+    public function scopeOrdered(Builder $builder)
+    {
+        $builder->orderByDesc('published_at')
+            ->orderByDesc('id');
     }
 }

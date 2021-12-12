@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthApiController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NewsApiController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,12 +16,16 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::apiResource('posts', PostController::class)->scoped(['post' => 'slug'])->missing(function () {
-    return response()->json(['message' => 'Post not found'], 404);
-});
-Route::apiResource('posts.comments', CommentController::class)->scoped(['post' => 'slug', 'comment' => 'id'])->missing(function () {
-    return response()->json(['message' => 'Post or comment not found'], 404);
+Route::middleware('auth.optional')->group(function () {
+    Route::apiResource('news', NewsApiController::class)->scoped(['news' => 'slug'])->missing(function () {
+        return response()->json(['message' => 'News not found'], 404);
+    });
+    Route::apiResource('posts', PostController::class)->scoped(['post' => 'slug'])->missing(function () {
+        return response()->json(['message' => 'Post not found'], 404);
+    });
+    Route::apiResource('posts.comments', CommentController::class)->scoped(['post' => 'slug', 'comment' => 'id'])->missing(function () {
+        return response()->json(['message' => 'Post or comment not found'], 404);
+    });
 });
 
 Route::prefix('auth')->group(function () {
