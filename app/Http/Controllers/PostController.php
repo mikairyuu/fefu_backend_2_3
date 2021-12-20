@@ -3,18 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PostResource;
+use App\Models\Comment;
+use App\Models\News;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
     private const PAGE_SIZE = 5;
+
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Post::class, 'post');
+    }
 
     /**
      * Display a listing of the resource.
@@ -44,7 +56,7 @@ class PostController extends Controller
         $post = new Post();
         $post->title = $validated['title'];
         $post->text = $validated['text'];
-        $post->user_id = User::inRandomOrder()->first()->id;
+        $post->user_id = Auth::user()->id;
         $post->save();
 
         return response()->json(new PostResource($post), 201);
@@ -90,6 +102,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post): JsonResponse
     {
+        $post->comments()->delete();
         $post->delete();
         return response()->json(['message' => 'Post removed successfully']);
     }

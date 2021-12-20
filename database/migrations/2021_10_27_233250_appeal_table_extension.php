@@ -30,7 +30,7 @@ class AppealTableExtension extends Migration
     public function down()
     {
         Schema::table('appeals', function (Blueprint $table) {
-            $table->dropColumn(['surname', 'patronymic', 'age,', 'gender']);
+            $table->dropColumn(['surname', 'patronymic', 'age', 'gender']);
         });
     }
 }
