@@ -65,7 +65,7 @@
 <div>
     <label>Login:</label>
     <label>
-        <b> {{$userData['login']}}</b>
+        <b> {{$userData['login'] ?? 'None' }}</b>
     </label>
 </div>
 <div>
@@ -78,6 +78,23 @@
     <label>Email:</label>
     <label>
         <b> {{$userData['email']}}</b>
+    </label>
+</div>
+<div>
+    <label>OAuth info:</label>
+</div>
+<div>
+    <label>GitHub:</label>
+    <label>
+        <b> Last login date: {{$userData['github_login_date']?? 'None'}}</b>
+        <b> Registration date: {{$userData['github_registration_date']?? 'None'}}</b>
+    </label>
+</div>
+<div>
+    <label>Google:</label>
+    <label>
+        <b> Last login date: {{$userData['google_login_date']?? 'None'}}</b>
+        <b> Registration date: {{$userData['google_registration_date']?? 'None'}}</b>
     </label>
 </div>
 </body>

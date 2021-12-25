@@ -22,6 +22,12 @@ class User extends Authenticatable
         'login',
         'email',
         'password',
+        'github_id',
+        'github_login_date',
+        'github_registration_date',
+        'google_id',
+        'google_login_date',
+        'google_registration_date',
     ];
 
     /**
@@ -33,6 +39,8 @@ class User extends Authenticatable
         'password',
         'email_verified_at', //not used for now so let's hide it
         'remember_token',
+        'github_id',
+        'google_id',
     ];
 
     public function comments(): HasMany

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppealController;
 use App\Http\Controllers\AuthWebController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\OAuthController;
 use App\Http\Middleware\SuggestionManager;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,10 @@ Route::post('/appeal', [AppealController::class, 'handlePost'])->name('appeal_po
 Route::prefix('/auth')->group(function () {
     Route::match(['GET', 'POST'], '/login', [AuthWebController::class, 'login'])->name('web_login');
     Route::match(['GET', 'POST'], '/register', [AuthWebController::class, 'register'])->name('web_register');
+    Route::prefix('/oauth')->group(function () {
+        Route::get('/redirect', [OAuthController::class, 'redirect'])->name('oauth_redirect');
+        Route::get('/callback', [OAuthController::class, 'callback'])->name('oauth_callback');
+    });
     Route::get('/logout', [AuthWebController::class, 'logout'])->name('web_logout')->middleware('auth:sanctum');
 });
 Route::get('/profile', [AuthWebController::class, 'profile'])->name('web_profile')->middleware('auth:sanctum');
