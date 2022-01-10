@@ -83,5 +83,7 @@
     </div>
     <input type="submit" value="Login">
 </form>
+<a href="{{route('oauth_redirect', ['driver' => 'github'])}}">Login through GitHub</a>
+<a href="{{route('oauth_redirect', ['driver' => 'google'])}}">Login through Google</a>
 </body>
 </html>

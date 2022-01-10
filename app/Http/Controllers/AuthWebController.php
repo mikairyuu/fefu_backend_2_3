@@ -25,7 +25,8 @@ class AuthWebController
             return view('loginForm',
                 ['errors' => $validator->fails() ? $validator->messages() : new MessageBag(['Login failed'])]);
         } else {
-            return view('loginForm');
+            $errors = $request->session()->get('errors') !== null ? new MessageBag($request->session()->get('errors')) : null;
+            return view('loginForm', ['errors' => $errors]);
         }
     }
 
